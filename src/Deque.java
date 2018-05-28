@@ -129,6 +129,9 @@ public class Deque<Item> implements Iterable<Item> {
 			return retVal;
 		}
 		
+		public void remove() {
+            throw new UnsupportedOperationException();
+        }
 	}
 
 }
