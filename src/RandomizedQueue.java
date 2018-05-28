@@ -32,7 +32,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		que = temp;
 	}
 	
-	public void enque(Item item) {
+	public void enqueue(Item item) {
 		if(item == null) {
 			throw new IllegalArgumentException();
 		}
@@ -99,10 +99,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		@Override
 		public Item next() {
 			// TODO Auto-generated method stub
-			while(que[current++] == null) {
+			while (que[current++] == null) {
 			}
-			++ops;
-			return que[current];
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			} else {
+				++ops;
+				return que[current];
+			}
+
 		}
 		
 		public void remove() {
