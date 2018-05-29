@@ -5,9 +5,10 @@ public class Permutation {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		RandomizedQueue<String> que = new RandomizedQueue<String>();
-		String[] sarr = StdIn.readAllStrings();
-		for(String s : sarr) {
+		String s = StdIn.readString();
+		while(s != null) {
 			que.enqueue(s);
+			s = StdIn.readString();
 		}
 		
 		int ops = Integer.parseInt(args[0]);

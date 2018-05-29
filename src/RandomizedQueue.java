@@ -7,7 +7,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	private int size; 
 	private Item[] que;
 	
-	@SuppressWarnings("unchecked")
 	public RandomizedQueue() {
 		que = (Item[]) new Object[2];
 		size = 0;
@@ -24,7 +23,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	private void resize(int capacity) {
 		assert capacity >= size;
 
-		@SuppressWarnings("unchecked")
 		Item[] temp = (Item[]) new Object[capacity];
 		for (int i = 0; i < size; i++) {
 			temp[i] = que[i];
