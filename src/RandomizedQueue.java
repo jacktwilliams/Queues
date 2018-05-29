@@ -37,7 +37,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if(size == que.length) {
 			resize(2*que.length);
 		}
-		que[size++] = item;
+		int x = size;
+		while(que[x] != null) ++x;
+		que[x] = item;
 	}
 	
 	public Item dequeue() {

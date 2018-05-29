@@ -122,7 +122,7 @@ public class Deque<Item> implements Iterable<Item> {
 		@Override
 		public Item next() {
 			if(!hasNext()) {
-				throw new UnsupportedOperationException();
+				throw new NoSuchElementException();
 			}
 			Item retVal = current.item;
 			current = current.next;
