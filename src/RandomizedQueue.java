@@ -22,10 +22,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	
 	private void resize(int capacity) {
 		assert capacity >= size;
-
+		
 		Item[] temp = (Item[]) new Object[capacity];
-		for (int i = 0; i < size; i++) {
-			temp[i] = que[i];
+		int tmpIndx = 0;
+		for (int i = 0; i < que.length; ++i) {
+			if (que[i] != null) {
+				temp[tmpIndx++] = que[i];
+			}
 		}
 		que = temp;
 	}
@@ -37,23 +40,27 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if(size == que.length) {
 			resize(2*que.length);
 		}
-		int x = size;
-		while(que[x] != null) ++x;
-		que[x] = item;
+		for(int i = 0; i < que.length; ++i) {
+			if(que[i] == null) {
+				que[i] = item;
+				i = que.length;
+			}
+		}
+		++size;
 	}
 	
 	public Item dequeue() {
 		if(size == 0) {
 			throw new NoSuchElementException();
 		}
-		int index = StdRandom.uniform(size);
+		int index = StdRandom.uniform(que.length);
 		Item x = null;
 		while(x == null) {
-			x = que[index++];
+			x = que[++index % que.length];
 		}
-		que[index] = null;
+		que[index % que.length] = null;
 		--size;
-		if (size > 0 && size == que.length/4) resize(que.length/2);
+		if (size > 0 && size <= que.length/4) resize(que.length/2);
 		return x;
 	}
 
@@ -61,17 +68,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if(size == 0) {
 			throw new NoSuchElementException();
 		}
-		int index = StdRandom.uniform(size);
+		int index = StdRandom.uniform(que.length);
 		Item x = null;
 		while(x == null) {
-			x = que[index++];
+			x = que[++index % que.length];
 		}
-		que[index] = null;
 		return x;
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		RandomizedQueue<Integer> que = new RandomizedQueue<Integer>();
+		que.enqueue(10);
+		que.enqueue(14);
+		que.enqueue(25);
+		que.enqueue(75);
+		System.out.println(que.dequeue());
+		System.out.println(que.dequeue());
+		System.out.println(que.dequeue());
+		System.out.println(que.dequeue());
 
 	}
 	@Override
@@ -85,10 +100,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		
 		public RandQueueIterator() {
 			ops = 0;
-			current = StdRandom.uniform(size);
-			while(que[current] == null) {
-				++current;
-			}
+			current = StdRandom.uniform(que.length);
 		}
 		@Override
 		public boolean hasNext() {
@@ -99,14 +111,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		@Override
 		public Item next() {
 			// TODO Auto-generated method stub
-			while (que[current++] == null) {
-			}
 			if (!hasNext()) {
 				throw new NoSuchElementException();
-			} else {
-				++ops;
-				return que[current];
 			}
+			++current;
+			while (que[current % que.length] == null) {
+				++current;
+			}
+			++ops;
+			return que[current % que.length];
 
 		}
 		
