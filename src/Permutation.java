@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 import edu.princeton.cs.algs4.StdIn;
 
 public class Permutation {
@@ -8,7 +10,15 @@ public class Permutation {
 		String s = StdIn.readString();
 		while(s != null) {
 			que.enqueue(s);
-			s = StdIn.readString();
+			try {
+				s = StdIn.readString();
+			}
+			catch (NoSuchElementException e) {
+				
+			}
+			finally {
+				s = null;
+			}
 		}
 		
 		int ops = Integer.parseInt(args[0]);
