@@ -40,10 +40,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if(size == que.length) {
 			resize(2*que.length);
 		}
-		for(int i = 0; i < que.length; ++i) {
-			if(que[i] == null) {
-				que[i] = item;
-				i = que.length;
+		int x = StdRandom.uniform(que.length);
+		for(int i = x; i < que.length + x; ++i) {
+			if(que[i % que.length] == null) {
+				que[i % que.length] = item;
+				i = que.length + x;
 			}
 		}
 		++size;
