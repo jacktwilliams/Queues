@@ -14,11 +14,9 @@ public class Permutation {
 				s = StdIn.readString();
 			}
 			catch (NoSuchElementException e) {
-				
-			}
-			finally {
 				s = null;
 			}
+			finally {}
 		}
 		
 		int ops = Integer.parseInt(args[0]);

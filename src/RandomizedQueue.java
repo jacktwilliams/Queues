@@ -40,26 +40,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		if(size == que.length) {
 			resize(2*que.length);
 		}
-		int x = StdRandom.uniform(que.length);
-		for(int i = x; i < que.length + x; ++i) {
-			if(que[i % que.length] == null) {
-				que[i % que.length] = item;
-				i = que.length + x;
-			}
-		}
-		++size;
+		que[size++] = item;
 	}
 	
 	public Item dequeue() {
 		if(size == 0) {
 			throw new NoSuchElementException();
 		}
-		int index = StdRandom.uniform(que.length);
-		Item x = null;
-		while(x == null) {
-			x = que[++index % que.length];
-		}
-		que[index % que.length] = null;
+		//array is contiguous
+		int index = StdRandom.uniform(size);
+		Item x = que[index];
+		//swap last item with item picked and delete last item
+		que[index] = que[size - 1];
+		que[size - 1] = null;
+		
 		--size;
 		if (size > 0 && size <= que.length/4) resize(que.length/2);
 		return x;
@@ -101,7 +95,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		
 		public RandQueueIterator() {
 			ops = 0;
-			current = StdRandom.uniform(que.length);
+			//fisher yates shuffle
+			int j;
+			for(int i = 0; i < size - 2; ++i) {
+				j = StdRandom.uniform(i, size);
+				Item tmp = que[i];
+				que[i] = que[j];
+				que[j] = tmp;
+			}
 		}
 		@Override
 		public boolean hasNext() {
